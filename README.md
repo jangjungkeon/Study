@@ -25,16 +25,242 @@
 
 ## Data Analysis
 python을 이용한 데이터 분석
+
 ## ML/DL
 
+----
+
+### 나이브 베이즈 분류모델로 텍스트 분류하기.
+> bayes3_text.py
+
+소스코드 설명
+```
+model = make_pipeline(TfidfVectorizer(), MultinomialNB())
+```
+로 모델 생성 후 작업.
+
 ------
+
+### iris 데이터를 활용하여 PCA 분석(주성분 분석) 
+> pca_test.py<br>
+> 주성분 분석이라고도 한다. 
+
+**PCA 주성분 분이란**<br>
+분포된 데이터들 중 주성분을 분석해내는 기법. 
+
+-----
+
+### RandomForest, DecisionTree 활용해보기
+> rf_regressor.py <br>
+> boston 집값 데이터셋을 활용하여 RandomForest*, DecisionTree* 모델을 활용해보자
+
+소스코드 설명
+- DecisionTreeRegressor, RandomForestRegressor 클래스활용
+
+**DecisionTree**<br>
+분류와 회귀가 가능한 지도학습 모델 중 하나<br> 
+일련의 분류 규칙을 설정한 뒤 데이터를 분류 예측하는 알고리즘. 트리모양으로 되어있음.
+오버피팅 될 가능성이 높다는 약점이 있음.
+
+**RandomForest**<br> 
+결정트리가 오버피팅될 가능성이 있어 좀더 일반화된 트리로 만들어진 것이 RandomForest.<br>
+결정트리를 여러개 만든 후 합치는 병렬처리 ensemble 기법이 활용된다. 
+-----
+
+### xgboost 모델을 활용(feat. iris)
+> xgb1.py <br>
+> xgboost*는 Randomforest와 더불어 대표적인 ensemble 기법이다.  
+
+
+**xgboost**<br>
+Randomforest와 같이 ensemble 기법이나 직렬처리이며, 고성능이나 과적합이 우려될 수 있다. 
+
+----
+
+### BMI 데이터셋에 SVM 모델을 활용.
+> svm3_bmi.py<br>
+> svm* 모델을 활용해서 데이터셋 분석 및 예측
+
+**SVM**<br>
+분류를 위한 최적의 기준 선을 정의하는 모델. 
+
+----
+
+### 숫자 이미지 데이터에 K-평균 알고리즘 사용하기
+> clu4.py<br>
+> 숫자 이미지 데이터에 K-평균* 알고리즘 사용하기
+
+**KMean 알고리즘**<br>
+사용자가 정한 클러스터의 숫자만큼 군집을 만들어주는 알고리즘. 각 데이터사이의 거리를 유클리드 거리법으로 측정하여 군집화한 것이다.  
+kmean는 특이한 모양의 군집은 찾지 못하는 경향이 있다.
+----
+
+### 밀도 기반 클러스터링 dbscan 활용해보기
+> clu6_dbscan.py <br>
+> DBSCAN*는 Kmeans와 달리 K를 지정하지 않음.
+
+**DBSCAN**<br>
+kmean 알고리즘에서 할 수 없던 다양한 모양의 군집도 군집화 시킬 수 있다.
+
+----
 
 ## Tensorflow
 데이터 양이 많아서 colab 에서 GPU버전으로 주로 실행.
 
 -----
 
+### fashion_mnist 데이터로 이미지 분류
+> ke20fashion.py<br>
+> 구두, 신발 등 많은 이미지 데이터를 바탕으로 이미지 분류
+
+소스코드 설명
+- 텐서플로 데이터셋의 fashion_mnist를 활용
+- cnn, rnn 등의 기술을 활용하지 않고 오직 Dense Layer를 바탕으로 학습
+- 모델을 저장하고 불러오기
+
+-----
+
+### 내가 그린 숫자를 컴퓨터가 맞춰보기
+> ke19mnist.py <br> 
+> 이미지 분류의 바이블 데이터셋인 mnist를 활용해서 기본기 다지기
+
+소스코드 설명
+1. 데이터 로드
+2. 데이터 전처리
+   - one-hot 처리
+   - 0 ~ 1 사이 값으로 정규화
+3. 학습
+   - 가중치를 규제하는 kernel_regularizer* 활용
+4. 결과
+   - 그림판에서 숫자를 그린 후 예측 데이터에 넣어보기
+
+<br>
+**kernel_regularizer**<br>
+오버 피팅 방지를 위해 사용됨
+
+--------
+
+### tensorflow를 활용하여 iris 모델을 분류하고 성능 측정하기
+> ke18.py<br><br>
+> layer의 갯수를 다르게 조정하여 모델을 여러개 만들고, roc 커브로 성능 측정하기
+
+소스코드 설명
+iris 데이터를 가져와서 
+- one-hot 인코딩, 
+- 표준화*를 진행. (StandardScaler)
+- layer 갯수에 따른 모델을 여러개 생성.
+- k-fold* 교차 검증(sklearn의 cross_val_score)
+- roc_curve* 로 성능 측정. 
+
+
+**k-fold**<br>
+데이터가 적을 때 오버피팅을 방지하기 위한 목적으로 사용.<br> 
+k번 접는다(train과 validation을 나눠서 k번 학습)는 개념으로 생각하면 된다. 
+train, test, validation 3개로 쪼개서 검증하다보면 데이터가 많이 필요해서 나온 개념이다. 
+
+**표준화를 하는 이유**<br>
+표준화를 한다고 정확도가 오르진 않지만 그래프로 표현하거나 값을 비교할 때 
+사용자가 알아보기 쉽게할 수 있다. 가독성이 더 뛰어나진다고 생각하면될듯.
+
+**roc_curve**
+모델의 성능을 평가하기 위해 사용하는 방법. x축으론 FPR, y축으론 TPR인 그래프(roc curve)에서
+커브의 밑면적 넓이(AUC)가 넓을수록 모델은 더 정확하게 예측한다고 볼 수 있다. 
+
+-----
+
+### zoo 데이터셋을 학습시킨 후 다항분류해보기
+> ke17zoo.py
+-----
+
+
+### 당뇨병환자 데이터셋을 학습시킨 후 당뇨병 예측하기(feat. k-fold 교차검증)
+> ke14k_fold.py
+
+소스코드 설명
+- 이항분류이기에 sigmoid함수를 활용해보았다.
+- k-fold 교차검증
+
+-----
+
+### 자동차 데이터셋을 학습시킨 후 연비 예측하기 (회귀분석)
+> ke11cars.py
+
+소스코드 설명
+- 회귀분석이기에 Dense layer의 활성화 함수에 'linear' 를 사용.
+
+-----
+
+### boston 데이터셋을 학습시킨 후 주택 가격 예측하기(다중회귀분석)
+> ke10boston.py<br>
+> 결정계수*를 활용해서 해당 회귀모델이 주택 가격을 얼마나 설명할 수 있는지 파악
+
+소스코드 설명
+- 결정계수(r2_score)를 통해 회귀모델의 성능을 측정
+         
+
+
+**결정계수**<br>
+회귀분석모델의 성능을 측정하는 하나의 값으로, 0~1사이값을 갖는다. 값이 클수록 
+독립변수들이 종속변수를 잘 설명하고 있다고(유의하다) 볼 수 있다. 정확도와는 차이가 있어 설명력이라고 부른다. 
+-----
+
+### 텐서보드를 활용하여 모델의 구조 및 학습 과정을 시각화하기(feat. 다중선형모델)
+> ke_tensorboard.py
+> 임의의 숫자 데이터(5행 3열)를 만들어 학습시키고 과정을 텐서보드로 시각화.
+
+소스코드 설명
+- tensorflow.keras.callbacks.TensorBoard 클래스를 활용
+```
+tb = TensorBoard(log_dir='my',
+                 histogram_freq=True,
+                 write_graph=True,
+                 write_images=False)
+```
+<br>
+log_dir : 저장하는 파일 위치<br>
+histogram_freq : 히스토그램 시각화를 얼마나 자주 보여줄건지<br>
+write_graph : 그래프를 보여줄 건지<br>
+write_images : 가중치(gradient)를 보여줄 건지<br>
+
+----
+
 ## RNN
+----
+
+### 영화 리뷰 감성분석 (feat. CNN, RNN)
+> tf_rnn_imdb.ipynb
+> imdb 데이터셋을 CNN, RNN 버전으로 나눠 학습시킨 후 비교. 
+
+소스코드 설명
+- CNN으로 텍스트 분류를 하려면 1차원 배열로 해야되기에 Conv1D를 사용.
+
+결과
+- 정확도가 CNN : 0.86, RNN(LSTM) : 0.89가 나와서 RNN이 근소하게 좋다는 것을 알 수 있었다.  
+
+
+### 로이터 통신 기사의 카테고리 분류하기
+> tf_rnn_reuters_classification.ipynb <br><br>
+> LSTM을 활용하여 기사 카테고리 분류해보기
+
+데이터셋 : tensorflow.keras.datasets.reuters
+- train : (8982, ),  test : (2246, ) 
+- 이미 토큰화 되어있음.
+- 총 45개의 카테고리
+
+소스코드 설명
+- 제공된 reuters 데이터를 불러와 LSTM 모델을 구성하여 시각화를 해보았다.
+- epochs 를 50정도 주어서 돌려보았다. 
+
+결과 
+- epochs가 10이 넘어갈 때 validation 데이터와 차이가 벌어져 오버피팅이 발생한 것을 확인할 수 있었다. 
+
+오버피팅을 방지하는 방법
+- 가장 좋은 방법은 더 많은 데이터를 모으는 것
+- 차선책은 모델이 수용할 수 있는 정보의 양을 조절
+- 저장할 수 있는 정보에 패널티를 가하는 것(kernel_regularizer)
+- 모델의 파라미터수를 줄이는 것. (dropout)
+
+----
 
 ### LSTM을 활용하여 스펨메일 분류해보기(영어 메일)
 > tf_rnn_spamClassification.ipynb <br><br>
@@ -120,11 +346,12 @@ LSTM Layer 전에 **Embedding** 작업이 선행된다.
 **many-to-one**
 input 여러개, output 1개
 RNN의 각 layer를 거치면서 하나의 output이 생성
- 
+대표적으로 텍스트 감성분석이 있을 수 있다. 
 **many-to-many**      
 input 여러개, output 여러개 
 RNN 각 layer마다 output 을 생성
-RNN layer에 return_sequences=True 항목을 추가.  
+RNN layer에 return_sequences=True 항목을 추가.
+대표적으로 번역활동이 있을 수 있따.
 
 
 -------
@@ -309,7 +536,7 @@ embedding의 단어 사전 사이즈는 word_size + 1을 해야한다.
 
 -----
 
-### MNIST 로 CNN 연습
+### MNIST 로 CNN 연습(이미지 분류)
 > ke21cnn.py
 > mnist* 데이터로 cnn 연습. 
 
@@ -322,19 +549,6 @@ embedding의 단어 사전 사이즈는 word_size + 1을 해야한다.
 수기로 숫자가 적힌 데이터. 흑백이여서 각 픽셀의 색정도에 따라 벡터로 표현 가능.  
 
 ----
-
-### fashion_mnist 데이터로 이미지 분류
-> ke20fashion.py     <br><br>
-> 구두, 신발 등 많은 이미지 데이터를 바탕으로 이미지 분류 
-
-소스코드 설명
-- 텐서플로의 fashion_mnist 을 활용.
-- cnn, rnn 등의 기술은 활용하지 않고 오직 Dense layer를 바탕으로 학습 
-- 모델을 저장하고 불러오기
-
-------
-
-
 
 
 
