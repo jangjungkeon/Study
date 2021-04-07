@@ -1,0 +1,47 @@
+.earlyBirdContainer {
+	width:1050px;
+	margin-left: auto;
+	margin-right: auto;
+	height: 500px;
+}
+
+.earlyBirdText {
+	float: left;
+	font-size: 15px;
+	color: #A4A4A4
+}
+.earlyBirdText>strong{
+	font-size: 25px;
+	color: black;
+}
+.earlyBirdText>span{
+	font-size: 15px;
+	color: #A4A4A4
+}
+.earlyBirdPic {
+	
+	float: right;
+}
+
+#index_image25{
+	width:700px;
+	height:336px;
+}
+#index_goods_name25{
+	font-size: 16px;
+    line-height: 24px;
+}
+#index_goods_Bprice25{
+	padding-left: 4px;
+    font-size: 14px;
+    color: #999;
+    line-height: 30px;
+    text-decoration: line-through; 
+}
+#index_goods_Pprice25{
+    padding-right: 6px;
+    font-weight: 800;
+    font-size: 20px;
+    color: #fa622f;
+    line-height: 30px;
+}

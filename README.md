@@ -16,25 +16,31 @@
 ## Java Web
 ### Homepage_Kurly
 
-사용된 스펙
+----
+
+>사용된 스펙
 - MariaDB 10.5.8
 - Spring 5.0.0
 - Java 1.8.261
 - MyBatis 3.2.3
+ 
+<br>
 
-구현된 기능
-   - CSS, Html 등은 마켓컬리 홈페이지를 참고하여 카피코딩
+> 구현된 기능
+   - 스프링 MVC 구조로 설계   
+   - CSS, Html 등은 마켓컬리 홈페이지를 참고
    - index 페이지의 슬라이더 기능.   
    - 연관 검색어 기능, db 상품목록 가져오기(ajax)
    - 로그인 AOP, 세션기능
-   - 회원가입, 장바구니 담기, 상품 선택 및 해제 로직
-   - 게시판 기본기능, 좋아요 기능
+   - 회원가입, 장바구니 담기, 상품 선택 및 해 로직(결제금액 자동 변경)
+   - 게시판 기본기능, 좋아요 기능, 비밀글 기능
    - 상품 이미지 업로드 기능  
-   - JDBC(mariadb) 연동
-   - 
+   - MyBatis 로 JDBC(mariadb) 연동
 
-db 데이터 테이블<br>
-<img src="/path/to/img.jpg" width="450px" height="300px" title="kurly_dbtable" alt="kurly_dbtable"></img><br/>
+<br>
+
+**db 데이터 테이블**<br><br>
+<img src="https://raw.githubusercontent.com/jangjungkeon/Study/main/Data/image/kurly_db.png" width="450px" height="300px" title="kurly_db_img" alt="kurly_db_img"></img><br/>
 
 
 ---
