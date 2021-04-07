@@ -5,7 +5,7 @@ import tensorflow as tf
 from tensorflow.python.keras.applications.densenet import layers
 
 
-dataset = pd.read_csv('https://raw.githubusercontent.com/pykwon/python/master/testdata_utf8/auto-mpg.csv')
+dataset = pd.read_csv('https://raw.githubusercontent.com/jangjungkeon/Study/main/Data/dataset/auto-mpg.csv')
 print(dataset.head(2))
 del dataset['car name']
 print(dataset.head(2))

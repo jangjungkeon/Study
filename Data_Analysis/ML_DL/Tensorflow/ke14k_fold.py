@@ -14,7 +14,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold, cross_val_score
 from tensorflow.python.keras.wrappers.scikit_learn import KerasClassifier
 
-data = np.loadtxt('https://raw.githubusercontent.com/pykwon/python/master/testdata_utf8/diabetes.csv',
+data = np.loadtxt('https://raw.githubusercontent.com/jangjungkeon/Study/main/Data/dataset/diabetes.csv',
                   dtype=np.float32, delimiter=',')
 print(data, data.shape)     # (759, 9)
 

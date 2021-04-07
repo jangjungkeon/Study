@@ -6,7 +6,7 @@ from tensorflow.keras.utils import to_categorical
 
 import numpy as np
 
-xy = np.loadtxt('https://raw.githubusercontent.com/jangjungkeon/Study/main/Data_Analysis/dataset/zoo.csv', delimiter=',')
+xy = np.loadtxt('https://raw.githubusercontent.com/jangjungkeon/Study/main/Data/dataset/zoo.csv', delimiter=',')
 print(xy[:2], xy.shape)
 
 x_data = xy[:, :-1]     # feature
