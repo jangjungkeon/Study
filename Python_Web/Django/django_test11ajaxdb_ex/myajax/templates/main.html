@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-Latest.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#btn").click(function(){
+                let jik = $("#jik").val()
+                if (jik === ""){
+                    alert("직급 정보를 입력해주세요")
+                    return
+                }
+                $("#showData").empty();
+                $.ajax({
+                    url:'jikwon',
+                    type:'get',
+                    dataType:'json',
+                    data:{'jik': jik},
+                    success: function(data){
+                        let str = "<table border='1'>";
+                        str += "<tr><th>직원번호</th><th>직원명</th><th>부서명</th></tr>"
+                        let count = 0;
+                        $.each(data, function(idx, entry){
+                           str += "<tr>";
+                           str += "<td>" + entry['jikwon_no'] + "</td>";
+                           str += "<td>" + entry['jikwon_name'] + "</td>";
+                           str += "<td>" + entry['buser_num'] + "</td>";
+                           str += "</tr>";
+                           count += 1;
+                        });
+                        str += "</table>";
+                        $("#showData").append(str);
+                        $("#showData").append("건수 : " + count);
+
+                    },
+                    error: function(){
+                        $("showData").text("실패..");
+                    }
+                })
+            })
+        });
+    </script>
+</head>
+<body>
+<h2>Ajax 연습문제 1)</h2>
+직원 정보 입력<br>
+직급 : <label><input type="text" id="jik"></label>
+<button id="btn">결과보기</button>
+<div id="showData"></div>
+</body>
+</html>

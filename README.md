@@ -6,6 +6,7 @@
 - [Java Web](#java-web)
   - [Homepage_Kurly](#homepage_kurly)
 - [Python Web](#python-web)
+  - [Django](#django)
 - [Data Analysis](#data-analysis)
   - [ML/DL](#ml-dl)
     - [tensorflow](#tensorflow)
@@ -46,7 +47,56 @@
 ---
 
 ## Python Web
-## ChatService
+
+------
+
+### python 으로 mariadb 연동(기본)
+> test35db.py <br>
+> db에 있는 데이터를 select 해오기
+
+소스코드 설명
+- pymysql 모듈을 활용해서 connection 객체 생성
+- cursor 메서드로 Sql문 직접 넣고 select
+
+------
+
+### 로컬에서 돌아가는 간단한 멀티 채팅서버 만들기
+> simpleChatServer.py, simpleChatClient.py<br>
+> 쓰레드*를 활용
+
+소스코드 설명
+- 서버 -> 클라이언트 순 실행
+- 소켓 인스턴스를 생성 후 메타데이터(ip, port) 바인드. 
+- 쓰레드 인스턴스 생성
+
+**파이썬 멀티쓰레드**<br>
+파이썬(Cpython)은 메모리 관리방법이 thread-safe하지 않기 때문에 gil이 필요하다. 그래서 비효율적으로 메모리를 사용한다. 
+이런 문제로 인해 파이썬 개발자들은 멀티프로세싱 모듈을 지원하여 사용을 권장. 
+
+----
+## Django
+
+----
+
+### 장고 활용하여 mariadb 연동 후 Ajax 활용
+> django_test11ajaxdb_ex
+> 장고를 활용하여 db의 데이터를 ajax를 통해 실시간으로 불러오기.
+
+소스코드 설명
+- main.html에서 결과보기 버튼을 누르면 아래 함수가 실행
+- 장고 orm으로 db에서 데이터를 가져와서 출력.
+- json 파일로 main.html에 넘기기
+
+```
+def jikwonFunc(request):
+    sdata = Jikwon.objects.filter(jikwon_jik=request.GET.get('jik'))
+    datas = []
+    for i in sdata:
+        dic = {'jikwon_no': i.jikwon_no, 'jikwon_name': i.jikwon_name, 'buser_num': i.buser_num}
+        datas.append(dic)
+    # print(datas)
+    return HttpResponse(json.dumps(datas), content_type="application/json")
+```
 
 ---
 
@@ -253,6 +303,20 @@ write_images : 가중치(gradient)를 보여줄 건지<br>
 
 ## RNN
 ----
+
+### 네이버 영화 리뷰 감성분석 (feat. RNN, konlpy)
+> tf_rnn_navermovie.ipynb<br>
+> train, test = 150000, 50000 개 네이버 영화 리뷰 데이터셋 <br>
+> 전처리 과정 중 konlpy 를 바탕으로 한글 형태소 분석 추가.
+
+소스코드 설명
+전처리과정
+- 앞서 토지 데이터셋에서는 단어, 글자, 자모 단위로 쪼개서 단어사전에 넣었다.
+- 이번에는 형태소 분석이 가능한 라이브러리인 konlpy* 를 활용하여 전처리 진행
+- 불용어 사전을 통해 의미없는 단어 필터링
+- 정규표현식으로 구두점등 제거
+- OOV 문제를 해결하기 위해 vocab_size 에 + 2, Tokenizer 함수에 oov_token='OOV'추가
+
 
 ### 영화 리뷰 감성분석 (feat. CNN, RNN)
 > tf_rnn_imdb.ipynb
