@@ -12,17 +12,12 @@
     <link href="resources/css/dropdown.css" rel="stylesheet"/>
 	<title>마켓컬리 :: 내일의 장보기, 마켓컬리</title>
 	<link rel="shortcut icon" href="resources/images/kurly_mark.png" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
-	<script type="text/javascript">
-		
-	</script>
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
-
-
 <body>
-	<jsp:include page="top.jsp"></jsp:include>
+	<jsp:include page="top.jsp"/>
      <main>
+
        <div class="section_view">
          <img id="section_img" src="resources/images/goods/${goods.goods_img}">
          <div id="section_info">
@@ -182,9 +177,6 @@
           <li class="goods-view-information-tab"><a href="#qnab">상품문의</a></li>
         </ul>
         </div>
-		
-		
-		
 				<div class="board">
 			<div class="board_tit">
 				<h2>Q n A</h2>
@@ -198,87 +190,48 @@
 			</div>
 			<div class="board_table" id="qna">
 			</div>
-		</div>   
-		
-      
+		</div>
     </main>
-      <jsp:include page="bottom.jsp"></jsp:include>
- 
+      <jsp:include page="bottom.jsp"/>
 
-
-<!-- review test -->	
-	
-
+  <script src="${pageContext.request.contextPath}/resources/js/goodsDetail_insertCart.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/js/goodsDetail_review.js"></script>
   <script type="text/javascript">
+      /* 장바구니 담기 */
+      $(document).on('click', '#insertCartBtn', function(){
+          let cart_goods_cont = $(".inp").val();
+          let user_id = "<%=session.getAttribute("user_id")%>";
+          if (cart_goods_cont < 1){
+              alert("구매수량이 0개입니다.");
+              return
+          }
 
-  	/* 장바구니 담기 */
-  	$(document).on('click', '#insertCartBtn', function(){
-  		let cart_goods_cont = $(".inp").val();
-  		let user_id = "<%=session.getAttribute("user_id")%>";
-  		if (cart_goods_cont < 1){
-  			alert("구매수량이 0개입니다.");
-  			return
-  		}
-  		
-  		if (user_id == "null"){
-  			alert("로그인이 필요합니다.");
-  			location.href = 'login';
-  			return
-  		}
-  		
-  		<% GoodsDto dto = (GoodsDto)request.getAttribute("goods"); %>
-  		//alert(goods_id)
-  		let goods_id = <%=dto.getGoods_id() %>;
-  		
-  		$.ajax({
-  			type: "post",
-  			url:"insertCartGoods",
-  			dataType:"json",
-  			data:{"goods_id":goods_id, 
-  				"cart_goods_cont": cart_goods_cont},
-  			success:function(isSuccess){
-  				alert(isSuccess.msg.toString())
-  				
-  			}
-  		})
-  	});
-  	 
-  	function calPrice(num){
-  		let dc_price = $(".dc_price").text();
-  		$(".num").text(num * dc_price); 
-  	}
-  	
-  	/* 구매 수량 변동 */
-  	$(document).on('click', '.btn_down_on',function(){
-  		let num = $(".inp").val();
-  		if (num > 0) $(".inp").val(--num);
-  		calPrice(num); 		
-  		
-	  });
-    $(document).on('click', '.btn_down_up',function(){
-  		let num = $(".inp").val();
-  		if (num < 1000) $(".inp").val(++num);
-  		calPrice(num);
-	  });
+          // 로그인 체크
+          if (user_id === "null"){
+              alert("로그인이 필요합니다.");
+              location.href = 'login';
+              return
+          }
+
+          <% GoodsDto dto = (GoodsDto)request.getAttribute("goods"); %>
+          let goods_id = <%=dto.getGoods_id() %>;
+
+          $.ajax({
+              type: "post",
+              url:"insertCartGoods",
+              dataType:"json",
+              data:{"goods_id":goods_id,
+                  "cart_goods_cont": cart_goods_cont},
+              success:function(isSuccess){
+                  alert(isSuccess.msg.toString())
+              }
+          })
+      });
 
 
-  /* 페이지 로딩될 때 1 페이지 표시됨 */
-  $(function(){
-		var pageId = 1;
-		callReview(pageId, "recently" ,"review");
-		callReview(pageId, "recently" ,"qna");
-		
-		var log = getParameterByName("log")
-		if(log == "x"){
-			alert("로그인 후 이용해주세요")
-		}else{
-			
-		}	
-		
-	 });  
+
   
-  
- 	 
+
   /* url에서 goods_id 가져오기 */
   function getParameterByName(name) {
       name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -297,9 +250,9 @@
 	  
 	  
 	  /* 목차를 누른건지 체크 */
-	  if(id != 'tr_first'){
+	  if(id !== 'tr_first'){
 	  /* 비밀글 체크 후 조회여부 결정  (0이면 비밀글)*/
-	  if($('#'+id).attr("value") != "0" || code == "admin" || arName == user_id  ){
+	  if($('#'+id).attr("value") !== "0" || code === "admin" || arName === user_id  ){
 		$.ajax({
 			type : "get",
 			url : "view_count",
@@ -308,7 +261,7 @@
 			async: false,
 			success : function(data) {
 				var content = id+"_content";
-				if($('#'+content).css("display") == "none"){
+				if($('#'+content).css("display") === "none"){
 					let howAsc = data.howAsc;
 					 let pageId = data.page;
 					 callReview(pageId, howAsc,RorQ);
@@ -329,52 +282,6 @@
 	  else {}
 	  });
 
-  
-  /* 좋아요 버튼 클릭 */
-  $(document).on('click', '.like_btn',function(){
-	  var review_id = this.id;
-	 $.ajax({
-		   type : "get",
-		   url : "clickLikes",
-		   data : {"review_id" : review_id},
-		   dataType : "json",
-		   success : function(data) {
-			   let result = data.result;
-			   let howAsc = data.howAsc;
-			   let pageId = data.page;
-			  if(result == "fail")
-				  alert("로그인 후 이용해 주세요.")
-			  else if(result == "like"){
-				  alert("추천해 주셔서 감사합니다.")
-				  callReview(pageId, howAsc, "review");			  
-			  }else{
-				  alert("추천이 취소되었습니다.")
-				  callReview(pageId, howAsc, "review");	  
-			  }
-		   },
-		   error : function(){
-			   alert("오류발생");  
-		   }
-	 }); 
-	  
-  });
-  
-  
-  /* 페이지 변경 */
-  $(document).on('click', '.pagebtn', function page(){
-	  var pageId = this.id;
-	  var howAsc = $("#howAsc").val();
-	  var RorQ = $('.pagebtn').parent().attr('name');
-	  callReview(pageId, howAsc, RorQ);
-  });		
-  
-  /* 리뷰 정렬하기 */
-  $(document).on('change', '#howAsc', function asc(){
-	  var pageId = 1;
-	  var howAsc = $("#howAsc").val();
-	  callReview(pageId, howAsc, "review");
-  });		
-  
 
   /* 리뷰목록 불러오기 */
   function callReview(pageId, howAsc, RorQ) {
@@ -401,7 +308,8 @@
 					str += "</tr>";
 				let notice = review.noticeList;
 				$(notice).each(function(i, nl){
-					/* 공지목록 */
+
+				    /* 공지목록 */
 					str += "<tr class='view_content' id='" + nl.review_id + "_review' value='"+nl.review_isPrivate+"'>";
 					str += "<td class='tb_no'>공  지</td>"
 					str += "<td class='tb_tit'>" + nl.review_title + "</td>";
@@ -427,17 +335,17 @@
 				});
 					
 				let list = review.datas;
-				if(list != false){
+				if(list !== false){
 				$(list).each(function(i, rd){
 					/* 리뷰목록 */
 					str += "<tr class='view_content' id='" + rd.review_id + "_review' value='"+rd.review_isPrivate+"'>";
 					str += "<td class='tb_no'>" + rd.review_asc + "</td>";
 					
 					/* 비밀글 체크 */
-					if(rd.review_isPrivate  !="0"){
+					if(rd.review_isPrivate !== "0"){
 						str += "<td class='tb_tit'>" + rd.review_title + "</td>";
 					}else{
-						str += "<td class='tb_tit'><img src='resources/images/lock.png' style=' width: 15px; height: 15px;'>" + rd.review_title + "</td>";
+						str += "<td class='tb_tit'><img src='/resources/images/lock.png' style=' width: 15px; height: 15px;'>" + rd.review_title + "</td>";
 					}
 				
 					str += "<td class='tb_name'>" + rd.user_id + "</td>";
@@ -453,18 +361,18 @@
 						     + rd.review_id +"_review_content'><br/>";
 						str += "<img src='" + rd.review_img +"' style =' width: 300px; height: 200px;'><br/>";
 						str += rd.review_content
-						if(RorQ == "review"){
+						if(RorQ === "review"){
 							str += "<br/><button class='like_btn' id='" + rd.review_id + "_likes'>좋아요</button></td>";
 						}
-						else if (RorQ == "qna" && code == "admin"){
+						else if (RorQ === "qna" && code === "admin"){
 							str += "<br/><button> 답변 달기 </button></td>";
 						}	
 					}else{
 						str += "<td class='tb_content' colspan='6'><div class='review_content' id='"
 						     + rd.review_id +"_review_content'>" + rd.review_content;
-						if(RorQ == "review"){
+						if(RorQ === "review"){
 							str += "<br/><button class='like_btn' id='" + rd.review_id + "_likes'>좋아요</button></td>";
-						}else if (RorQ == "qna" && code == "admin"){
+						}else if (RorQ === "qna" && code === "admin"){
 							str += "<br/><button> 답변 달기 </button></td>";
 						}	
 					}
@@ -486,7 +394,7 @@
 				let totalPage = review.totalPage;
 				let page = review.page;
 				for(var pageNum = 1; pageNum<=totalPage; pageNum++){
-					if(pageNum == page){
+					if(pageNum === page){
 					str += "<span class='pagebtn' id='" + pageNum + "'> <b>" + pageNum + "</b> </span>";
 					}
 					else{

@@ -22,54 +22,24 @@
 		}
 	})();
 </script>
-
-</head>
-<body>
-	<!--    
-	admin에서 구현해야 할 기본내용 
-	1. 상품 추가(insert) 하기   
-	2. 관리자로 로그인했을 때만 보이기  
-	
-	추가내용 
-	- 회원관리 항목
-	  
--->
+<script src="${pageContext.request.contextPath}/resources/js/datepicker.js"></script>
 	<script type="text/javascript">
 		$(document).ready(
 				function() {
-
-					$.datepicker.setDefaults({
-						dateFormat : 'yy-mm-dd',
-						changeMonth : true,
-						changeYear : true,
-						nextText : '다음 달',
-						prevText : '이전 달',
-						dayNames : [ '월요일', '화요일', '수요일', '목요일', '금요일', '토요일',
-								'일요일' ],
-						dayNamesMin : [ '월', '화', '수', '목', '금', '토', '일' ],
-						monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월',
-								'7월', '8월', '9월', '10월', '11월', '12월' ],
-						monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월',
-								'7월', '8월', '9월', '10월', '11월', '12월' ],
-						showButtonPanel : true,
-						showMonthAfterYear : true,
-						currentText : '오늘 날짜',
-						closeText : '닫기',
-					})
-
-					$(function() {
-						$("#goods_saleBegin").datepicker({});
-						$("#goods_saleEnd").datepicker({});
-					});
+					$("#goods_saleBegin").datepicker({});
+					$("#goods_saleEnd").datepicker({});
 
 					$("#submitBtn").click(function() {
 						form.submit();
 					})
 				})
-	</script>
 
-	<jsp:include page="top.jsp"></jsp:include>
+	</script>
+</head>
+<body>
+	<jsp:include page="top.jsp"/>
 	<div class="main">
+		<div id="test"></div>
 		<div class="field_head">
 			<h3 class="tit">ADMIN</h3>
 			<!-- <p class="sub"><span class="ico">*</span>필수입력사항</p> -->
@@ -169,6 +139,6 @@
 			</div>
 		</form>
 	</div>
-	<jsp:include page="bottom.jsp"></jsp:include>
+	<jsp:include page="bottom.jsp"/>
 </body>
 </html>

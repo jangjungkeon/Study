@@ -29,19 +29,8 @@
 
 </head>
 <body>
-<!--   
-	login에서 구현해야할 기본 내용  
-	- id, pass 입력, db와 비교    
-	
-	
-	추가내용 
-	- naver, kakao 등 계정 연동 api 활용
-	 
- -->
- 
- <jsp:include page="top.jsp"></jsp:include>
- 
- 
+<jsp:include page="top.jsp"/>
+
  <div class="loginContainer">
 		<div class="loginH2">
 			<h2>로그인</h2>
@@ -78,7 +67,7 @@
 	</div>
  
  
- <jsp:include page="bottom.jsp"></jsp:include>
+ <jsp:include page="bottom.jsp"/>
  
  
  

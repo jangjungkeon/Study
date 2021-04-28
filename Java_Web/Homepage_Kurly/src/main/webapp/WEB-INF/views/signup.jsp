@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="resources/css/signup.css">
 <link rel="stylesheet" href="resources/css/dropdown.css">
 <link rel="stylesheet" href="resources/css/top.css">
-<script>
+<script type="text/javascript">
 jQuery.browser = {};
 (function () {
     jQuery.browser.msie = false;
@@ -22,46 +22,32 @@ jQuery.browser = {};
     }
 })();
 </script>
- 
- <script type="text/javascript">
+<script src="${pageContext.request.contextPath}/resources/js/datepicker.js"></script>
+<script type="text/javascript">
  $(document).ready(function(){
-		
-		$.datepicker.setDefaults({
-			dateFormat: 'yy-mm-dd',
-			changeMonth : true, changeYear : true,
-			nextText: '다음 달', prevText: '이전 달',
-			dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
-			dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
-			monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-			monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-			showMonthAfterYear: true,
-
-		})
-		
 	$(function(){
 		$("#datepicker").datepicker({}); 
 	});
 		
 		$("#submitBtn").click(
 			function() {
-				if ($("#user_id").val() == ""
-						|| $("#user_pwd").val() == ""
-						|| $("#user_name").val() == ""
-						|| $("#user_email").val() == ""
-						|| $("#user_addr").val() == ""
-						|| $("#user_tel").val() == ""
-						|| $("#datepicker").val() == "") {
+				if ($("#user_id").val() === ""
+						|| $("#user_pwd").val() === ""
+						|| $("#user_name").val() === ""
+						|| $("#user_email").val() === ""
+						|| $("#user_addr").val() === ""
+						|| $("#user_tel").val() === ""
+						|| $("#datepicker").val() === "") {
 					alert("필수 입력란이 비었습니다. 확인해주세요.");
 					return false;
 				}
-				form.submit();
+              form.submit();
 			
 			})
 	})
 	
-	
     </script>
-    <jsp:include page="top.jsp"></jsp:include>
+    <jsp:include page="top.jsp"/>
     <div class="main">
       <div class="field_head">
         <h3 class="tit">회원가입</h3>
@@ -159,7 +145,7 @@ jQuery.browser = {};
         </div>
       </form>
     </div>
-    <jsp:include page="bottom.jsp"></jsp:include>
+    <jsp:include page="bottom.jsp"/>
 </body>
 </html>
 
