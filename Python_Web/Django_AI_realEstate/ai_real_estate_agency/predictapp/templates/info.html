@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>AI 복덕방 - 상세정보</title>
+	
+	<!-- cross browsing 방지 -->
+	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.8'>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	
+	
+	<!-- java script -->
+	<script src='/static/js/jquery-1.12.4.min.js'></script>
+	<script src='/static/js/main.js'></script>
+	<script src='/static/js/prefixfree.dynamic-dom.js'></script>
+	
+	<!-- css -->
+	<link href='/static/css/basic.css' rel='stylesheet'>
+	<!-- font -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	
+	<!-- boot strap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	
+	
+	<!-- slider 집 값 예측 -->
+	<style>
+	h2{color: #f79318;}
+		/* slider bar */
+		/*
+		#slidecontainer {
+		    width: 100%;
+		}
+		*/
+		#slidecontainer{
+			width:400px;
+		}
+		.slider {
+		    -webkit-appearance: none;
+    		width: 400px;
+		    height: 15px;
+		    border-radius: 5px;
+		    background: #d3d3d3;
+		    outline: none;
+		    opacity: 0.7;
+		    -webkit-transition: .2s;
+		    transition: opacity .2s;
+		}
+		
+		.slider:hover {
+		    opacity: 1;
+		}
+		
+		.slider::-webkit-slider-thumb {
+		    -webkit-appearance: none;
+		    appearance: none;
+		    width: 25px;
+		    height: 25px;
+		    border-radius: 50%;
+	    	background: #f79318;
+		    cursor: pointer;
+		}
+		
+		.slider::-moz-range-thumb {
+		    width: 25px;
+		    height: 25px;
+		    border-radius: 50%;
+		    background: #4CAF50;
+		    cursor: pointer;
+		}
+		a{
+			color:black;
+		}
+		a:hover{
+		   	color:orange;
+		   	text-decoration: none;
+	    }
+	    tr{
+	    	height:40px;
+	    }
+	</style>
+	
+	<!-- slider bar -->
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$("#pricePredict").click(function(){
+			//console.log(year);
+			let apartment_id = "{{ apartment_id }}";
+			let gu = "{{ gu }}";
+			let exclusive_use_area = "{{ area }}";
+			let year_of_completion = "{{ year_of_completion }}";
+			let floor = "{{ floor }}";
+			let park_area_sum = "{{ parksum }}";
+			let day_care_babyTeacher_rate = "{{ bteacherrate }}";
+			let cctv_num = "{{ gu_cctv }}";
+			let k_remap = "{{ k_remap }}";
+			
+			$(".message").text("예측중");
+			$.ajax({
+				url:"/predict/featurePrice",
+				type:"get",
+				//data:{"year":year},
+				data:{"year":year, "apartment_id":apartment_id, "gu":gu, "exclusive_use_area":exclusive_use_area, "year_of_completion":year_of_completion, "floor":floor, "park_area_sum":park_area_sum, "day_care_babyTeacher_rate":day_care_babyTeacher_rate, "cctv_num":cctv_num, "k_remap":k_remap},
+				datatype:'json',
+				success:function(data){
+					$(".message").empty();
+					console.log(data);
+					let featurePrice = data[0]['featurePrice'];
+					//console.log(featurePrice)
+					//$(".message").text(featurePrice+"원");
+					featurePrice = featurePrice.toLocaleString();
+					output.innerHTML = year + "년 후 예상 집 값은 "+featurePrice+"원 입니다.";
+					
+				},
+				error:function(){
+					$(".message").text("error");
+				},
+			});
+		});
+		
+		var steps = [
+		    "1년 후",
+		    "3년 후",
+		    "5년 후",
+		    "10년 후"
+		];
+		var slider = document.getElementById("myRange");
+		var output = document.getElementById("demo");
+		year = 10;
+		output.innerHTML = steps[slider.value]; // Display the default slider value
+		
+		// Update the current slider value (each time you drag the slider handle)
+		slider.oninput = function() {
+		    output.innerHTML = steps[this.value];
+		
+			value = steps[slider.value];
+			if(value == "1년 후"){
+	            year = 1;
+	        } else if(value == "3년 후"){
+	        	year = 3;
+	        } else if(value == "5년 후"){
+	        	year = 5;
+	        } else {
+	        	year = 10;
+	        } 
+		}
+	});
+	</script>
+</head>
+<body>
+<!-- 디자인용 -->
+<div class="containerBg"></div>
+<!-- 전체 -->
+<div class="containers" style="height:1400px;">
+	{% block header %}
+		{% include "left.html"%}
+	{% endblock %}
+	<!-- 본문 -->
+	<div class="contents">
+		<!-- 검색창 -->
+		<div class="aptName">
+			{{apt}}
+		</div>
+		
+		<div class='cityName'>
+			{{city}} {{gu_name}}  {{addr_kr}}
+		</div>
+		<hr style="width: 400px;">
+		<table class='area'>
+			<tr height="30px">
+				<td class='column'>전용면적</td>
+				<td>&nbsp;&nbsp;:&nbsp;&nbsp;{{area}}m<sup>2</sup>({{area_pyeong}}평)</td>
+			</tr>
+			<tr>
+				<td class='column'>완공연도</td>
+				<td>&nbsp;&nbsp;:&nbsp;&nbsp;{{year_of_completion}}년</td>
+			</tr>
+			<tr>
+				<td class='column'>층&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수</td>
+				<td>&nbsp;&nbsp;:&nbsp;&nbsp;{{floor}}층</td>
+			</tr>
+		</table>
+
+		<hr style="width: 600px;">
+		
+		<table class='floor'>
+			<tr height="30px">
+				<td class='column'>공원면적(구 기준)</td>
+				<td>&nbsp;&nbsp;:&nbsp;&nbsp;{{parksum}}m<sup>2</sup></td>
+			</tr>
+			<tr>
+				<td class='column'>교사 1인당 담당 유치원생 비율(구 기준)</td>
+				<td>&nbsp;&nbsp;:&nbsp;&nbsp;{{bteacherrate}}명
+			</tr>
+			<tr>
+				<td class='column'>CCTV 수(구 기준)</td>
+				<td>&nbsp;&nbsp;:&nbsp;&nbsp;{{gu_cctv}}개</td>
+			</tr>
+			<tr>
+				<td class='column'>평균 거래액(구 기준)</td>
+				<td>&nbsp;&nbsp;:&nbsp;&nbsp;{{ gu_mean_price }}만원</td>
+			</tr>
+			<tr>
+				<td class='column'>K-Remap 부동산 시장 활성화 지수(구 기준)</td>
+				<td>&nbsp;&nbsp;:&nbsp;&nbsp;{{ k_remap }}
+				{% if k_remap > 115 %}
+					(시장 활성화)
+				{% elif k_remap < 95 %}
+					(시장 수축)
+				{% else %}
+					(시장 안정)
+				{% endif %}
+				</td>
+			</tr>
+		</table>
+		
+		<hr style="width: 600px;">
+		
+		<table class='floor'>
+			<tr height="30px">
+				<td class='column'>최근 해당 단지 거래날짜</td>
+				<td>&nbsp;&nbsp;:&nbsp;&nbsp;{{transaction_year_month}}월</td>
+			</tr>
+			<tr>
+				<td class='column'>최근 해당 단지 평균 거래액수</td>
+				<td>&nbsp;&nbsp;:&nbsp;&nbsp;{{maxdate_avgcost}}만원
+			</tr>
+			<tr>
+				<td class='column'>최근 해당 단지 평당 평균 거래액</td>
+				<td>&nbsp;&nbsp;:&nbsp;&nbsp;{{avgcost_per_pyeong}}만원</td>
+			</tr>
+		</table>
+		
+		<hr style="width: 600px;">
+		
+		<div style="margin-top: 50px;">
+			<h2>거래 내역</h2><br>
+			<table class="table">
+				<tr>
+  					<th>거래 연월</th><th>전용 면적</th><th>층</th><th>거래 가격(만원)</th><th>지역구 평균금액</th>
+  				</tr>
+					{% if dataset %}
+					{% for data in dataset %}
+				<tr>
+					<td>{{ data.transaction_year_month}}</td>
+					<td>{{ data.exclusive_use_area}} m<sup>2</sup></td>
+					<td> {{ data.floor}}층 </td>
+					<td>{{ data.transaction_real_price}}만원</td>
+					<td>{{ gu_mean_price}}만원</td>
+				</tr>
+					{% endfor %}
+				<tr>
+   					<td colspan="5" style="text-align: center;">
+   						{% if dataset.paginator.num_pages > 1 %}  {# paginator.num_pages : 전체 페이지 수 #}
+  	   				<div>
+  	   				{% if dataset.has_previous %}
+  	   				  	<a href="info?page={{dataset.previous_page_number}}&apartment_id={{apartment_id}}">&laquo;이전</a>
+  	   				{% endif %}
+
+  	   				{% if dataset.has_next %}
+  	   					<a href="info?page={{dataset.next_page_number}}&apartment_id={{apartment_id}}">다음&raquo;</a>
+  	   				{% endif %}
+  	   			&nbsp;&nbsp;
+  	   				(페이지 : {{dataset.number}} / {{dataset.paginator.num_pages}})
+  	   				</div>
+					{% endif %}
+   					</td>
+   				</tr>
+					{% else %}
+  				<tr><td colspan="5">글이 없어요</td></tr>
+				{% endif %}
+			</table>
+		</div>
+		<br><br>
+		<hr>
+		<!-- slider 집 값 예측 -->
+		<h2>해당 아파트 미래 집 값 예측하기</h2><br>
+		<div id="slidecontainer">
+		  <input type="range" min="0" max="3" value="3" class="slider" id="myRange">
+		  <p> <span id="demo" style="font-size: 30px;"></span></p>
+		</div>
+		<input class="btn-warning btn-lg" id="pricePredict" type="button" value="예측">
+		<div class="message" style="width:50px; height:50px;"></div>
+	</div>
+	<h3></h3>
+</div>
+</body>
+</html>
