@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 from django.conf.global_settings import STATICFILES_DIRS
 import os
+import json
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +23,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'r!=t)xm7p%41@cltl8_7&4(9++dnm1hw3&#3q6j&x3e!t=u49_'
+# secret key 코드.
+# 장고 BASE_DIR보다 상위의 프로젝트 컨테이너 폴더를 ROOT_DIR로 지정
+ROOT_DIR = os.path.dirname(BASE_DIR)
+# secrets.json의 경로
+SECRETS_PATH = os.path.join(ROOT_DIR, 'secrets.json')
+# json파일을 파이썬 객체로 변환
+secrets = json.loads(open(SECRETS_PATH).read())
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# json 파일은 dict 로 변환되므로, .items()를 호출해 나온 key와 value를 사용해
+# settings모듈에 동적으로 할당
+for key, value in secrets.items():
+    setattr(sys.modules[__name__], key, value)
+
+
 DEBUG = True
 
 ALLOWED_HOSTS = []
