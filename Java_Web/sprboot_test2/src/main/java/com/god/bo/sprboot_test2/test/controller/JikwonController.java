@@ -21,10 +21,9 @@ public class JikwonController {
         ModelAndView mav = new ModelAndView("jikwon");
 
         List<JikwonDto> testList = testService.selectTest();
-        for (JikwonDto dto : testList){
-            System.out.println(dto.getJikwon_name());
-        }
-
+//        for (JikwonDto dto : testList){
+//            System.out.println(dto.getJikwon_name());
+//        }
         mav.addObject("list", testList);
 
         return mav;
