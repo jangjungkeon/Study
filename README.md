@@ -8,7 +8,7 @@
 - [Python Web](#python-web)
   - [Django](#django)
 - [Data Analysis](#data-analysis)
-  - [ML/DL](#ml-dl)
+  - [ML/DL](#ml/dl)
     - [tensorflow](#tensorflow)
       - [RNN](#rnn)
       - [CNN](#cnn)
@@ -45,6 +45,18 @@
 
 
 ---
+
+### Spring Boot 다뤄보기(기본)
+
+----
+> 구현된 기능
+- Spring MVC 구조
+- MariaDB 연결 <br>
+- logback DB 수준까지 확장 <br>
+- mybatis or Hikari 을 통해 DB 연결 <br>
+- thymeleaf.html 활용 <br>
+- Junit5 테스트 <br>
+
 
 ## Python Web
 
