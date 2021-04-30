@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $.ajax({
+            type: "GET",
+            url: "/valueTest",
+            success: (data) => {
+                console.log(data);
+                $('#contents1').html(data);
+            }
+        })
+
+        $.ajax({
+            type: "GET",
+            url: "/testValue",
+            success: (data) => {
+                console.log(data);
+                $('#contents2').html(data);
+            }
+        })
+    </script>
+
+</head>
+<body>
+    <h2>하위</h2>
+    <div id="contents1">
+    </div>
+    <div id="contents2">
+    </div>
+
+</body>
+</html>
