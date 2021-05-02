@@ -1,5 +1,7 @@
 package com.god.bo.sprboot_test2.jpaTest.dto;
 
+import lombok.Builder;
+
 import javax.persistence.*;
 
 @Entity(name="member")          // entity가 붙은 클래스는 JPA가 관리하는 클래스
@@ -38,6 +40,7 @@ public class MemberDto {
 
     }
 
+    @Builder
     public MemberDto(String id, String name){
         this.id = id;
         this.name = name;

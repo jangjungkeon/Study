@@ -7,13 +7,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 public class TestService {
 
     @Autowired
     public TestMapper mapper;
 
-    public List<JikwonDto> selectTest(){
+    public List<JikwonDto> selectTest() {
         return mapper.selectTest();
     }
+
+
 }
