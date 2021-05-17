@@ -3,6 +3,10 @@
 소프트웨어 엔지니어가 되기위한 흔적들
 
 ## 목차
+- [Hadoop Eco](#hadoop-eco)
+  - [Mapreduce](#mapreduce)
+  - [Flume](#flume)
+  - [Kafka](#kafka)
 - [Java Web](#java-web)
   - [Homepage_Kurly](#homepage_kurly)
 - [Python Web](#python-web)
@@ -14,12 +18,79 @@
       - [CNN](#cnn)
   
 
+## Hadoop Eco
+
+-----
+### Mapreduce 
+> word count를 변형한 MR 예제 <br>
+> 전국 CCTV 설치 현황을 기준으로 데이터 분석 <br>
+> macosX, EC2(master 1개, slave 2개), hadoop.3.1.4 <br>
+
+
+#### 공통 : 공공데이터 수집.
+   - https://www.data.go.kr/data/15013094/standard.do 에서 csv 파일 받기
+   - cp949(window) 인코딩이므로 utf-8 로 다시 인코딩
+```
+iconv -f cp949 -t utf-8 abc123.csv > hadoop_cctv.csv
+```
+   - cctv 데이터를 클라우드 --> hdfs 로 옮기기(sftp, hdfs 프로토콜의 put 명령어 사용)
+
+
+#### 기관명을 기준으로 cctv 댓수 카운팅 (Hadoop_Eco/Mapreduce/.../cctv_ex1)
+<img src="https://raw.githubusercontent.com/jangjungkeon/Study/main/Data/image/hadoop_mr_cctv_ex1.png" width="450px" height="300px" title="hadoop_mr_cctv_ex1_img" alt="hadoop_mr_cctv_ex1_img"></img><br/>
+
+
+----
+
+#### 기관명과 설치용도를 기준으로 cctv 댓수 카운팅 (Hadoop_Eco/Mapreduce/.../cctv_ex3)
+- 복합키를 이용하여 "기관명  설치용도수  총갯수" 로 표현
+- 복합키는 WritableComparable를 활용하여 구현
+
+<img src="https://raw.githubusercontent.com/jangjungkeon/Study/main/Data/image/hadoop_mr_cctv_ex3.png" width="450px" height="300px" title="hadoop_mr_cctv_ex3_img" alt="hadoop_mr_cctv_ex3_img"></img><br/>
+
+
+-----
+
+###Flume
+> 클라우데라에서 개발한 서버의 대량 로그 데이터 수집 프레임워크<br>
+> 소스, 메모리 채널, 로그 싱크를 이용하여 http로 전달 된 로그를 출력하는 예제(기본예제)
+- sources 를 r1, channels 를 c1, sinks 를 k1 으로 두고 서로 연결하는 간단한 예제 
+- conf 폴더에 example.conf를 따로 만들어서 경로를 바꿔서 실행 
+- hadoop-2.5.1, jdk-1.8.0_261, flume-1.9.0
+
+```
+./bin/flume-ng agent --conf conf --conf-file ./conf/example.conf --name a1 -Dflume.root.logger=INFO,console
+```
+
+
+-----
+
+###Kafka
+> 링크드인에서 개발한 데이터 수집 플랫폼으로 TPS 성능이 매우 우수.<br>
+> 대용량 실시간 로그처리에 특화 <br>
+> zookeeper, broker 서버 실행, topic 생성, producer에서 메시지 전송, consumer에서 확인 (기본 예제)<br>
+
+
+주의할점
+- zoo -> broker -> producer, consumer 순으로 실행, 종료는 역순. 
+- 초기 설정 단계에서 config/server.properties 에서
+- 주석처리되어 있는 부분 해제 후 값 변경(아래 두 줄)
+
+```
+listeners=PLAINTEXT://:9092
+advertised.listeners=PLAINTEXT://127.0.0.1:9092
+```
+
+
 ## Java Web
+
+-----
+
 ### Homepage_Kurly
 
 ----
 
->사용된 스펙
+> 사용된 스펙
 - MariaDB 10.5.8
 - Spring 5.0.0
 - Java 1.8.261
