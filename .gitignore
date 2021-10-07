@@ -485,3 +485,4 @@ secrets.json
 ## 백준 알고리즘 테스트 파일
 test1.py
 test2.py
+**/kaggle_dataset/

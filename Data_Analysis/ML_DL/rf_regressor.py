@@ -19,7 +19,7 @@ pd.set_option('display.max_columns', 100)
 print(df.corr())
 
 
-x = df[['LSTAT']].values
+x = df[['LSTAT', 'TAX']].values
 y = df['MEDV'].values
 print(x[:2])
 print(y[:2])
@@ -54,20 +54,20 @@ print('test에 대한 설명력: ', r2_test)        # 0.57796   독립변수의 
 
 
 # 시각화
-from matplotlib import style
-style.use('seaborn-talk')
-plt.scatter(x, y, c='lightgray', label='train data')
-plt.scatter(x_test, model2.predict(x_test), c='r', label='predict data')
-plt.xlabel('LSTA')
-plt.ylabel('MEDV')
-plt.legend()
-plt.show()
+# from matplotlib import style
+# style.use('seaborn-talk')
+# plt.scatter(x, y, c='lightgray', label='train data')
+# plt.scatter(x_test, model2.predict(x_test), c='r', label='predict data')
+# plt.xlabel('LSTA')
+# plt.ylabel('MEDV')
+# plt.legend()
+# plt.show()
 
-# 새값으로 예측
-import numpy as np
-print(x_test[:3])
-x_new = [[50.11], [26.53], [1.76]]
-print("예상 집값 : ", model2.predict(x_new))
+# # 새값으로 예측
+# import numpy as np
+# print(x_test[:3])
+# x_new = [[50.11], [26.53], [1.76]]
+# print("예상 집값 : ", model2.predict(x_new))
 
 
 
