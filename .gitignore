@@ -485,4 +485,14 @@ secrets.json
 ## 백준 알고리즘 테스트 파일
 test1.py
 test2.py
-**/kaggle_dataset/
+
+# 데이터셋
+**/Dacon_dataset/
+**/Kaggle_dataset/
+Data/
+**/data/
+
+# tensorflow 부산물
+**/ck/
+**/submission/
+**/**_train/
